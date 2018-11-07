@@ -1,0 +1,36 @@
+{
+    "name": "oowlish/salesforce-php-sdk",
+    "type": "library",
+    "description": "A PHP-SDK for the Salesforce APIs",
+    "keywords": [
+        "oowlish",
+        "salesforce",
+        "php"
+    ],
+    "homepage": "https://github.com/oowlish/salesforce-php-sdk",
+    "license": "MIT",
+    "require": {
+        "php" : "^7.1"
+    },
+    "autoload": {
+        "psr-4": {
+            "Oowlish\\Salesforce\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Oowlish\\Salesforce\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.0-dev"
+        }
+    },
+    "config": {
+        "sort-packages": true
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^7.4"
+    }
+}
