@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PetCoach\Salesforce\Endpoints;
+namespace Oowlish\Salesforce\Endpoints;
 
 abstract class AbstractEndpoint
 {

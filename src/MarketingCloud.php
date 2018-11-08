@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace PetCoach\Salesforce;
+namespace Oowlish\Salesforce;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use PetCoach\Salesforce\Endpoints\AbstractEndpoint;
+use Oowlish\Salesforce\Endpoints\AbstractEndpoint;
 
 class MarketingCloud
 {
