@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Oowlish\Salesforce\Endpoints;
+namespace Oowlish\Salesforce\Api;
 
 abstract class AbstractEndpoint
 {
