@@ -4,20 +4,14 @@ declare(strict_types=1);
 
 namespace Oowlish\Salesforce\Api;
 
-abstract class AbstractEndpoint
+use Oowlish\Salesforce\MarketingCloud;
+
+abstract class Resource
 {
-    /**
-     * @return string
-     */
-    abstract public function getHttpMethod(): string;
+    protected $marketingCloud;
 
-    /**
-     * @return string
-     */
-    abstract public function getURI(): string;
-
-    /**
-     * @return array
-     */
-    abstract public function getBody(): array;
+    public function __construct(MarketingCloud $marketingCloud)
+    {
+        $this->marketingCloud = $marketingCloud;
+    }
 }
