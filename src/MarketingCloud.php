@@ -6,13 +6,10 @@ namespace Oowlish\Salesforce;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
-use Oowlish\Salesforce\Endpoints\AbstractEndpoint;
+use Psr\SimpleCache\CacheInterface;
 
 class MarketingCloud
 {
-    const BASE_URI = 'https://www.exacttargetapis.com';
-    const AUTH_URI = 'https://auth.exacttargetapis.com/v1';
-
     /**
      * @var string
      */
@@ -29,30 +26,62 @@ class MarketingCloud
     private $guzzle;
 
     /**
+     * @var CacheInterface
+     */
+    private $store;
+
+    /**
      * @param string $clientId
      * @param string $clientSecret
      * @param ClientInterface|null $guzzle
+     * @param $store
      */
-    public function __construct(string $clientId, string $clientSecret, ClientInterface $guzzle = null)
+    public function __construct(string $clientId, string $clientSecret, ClientInterface $guzzle, CacheInterface $store)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
-        $this->guzzle = $guzzle ?: new Client(['base_uri' => self::BASE_URI]);
+        $this->guzzle = $guzzle;
+        $this->store = $store;
+    }
+
+    public function getAccessToken()
+    {
+        if (!$this->store->has('salesforce-token')) {
+            $response = $this->guzzle->request(
+                'POST',
+                'https://auth.exacttargetapis.com/v1/requestToken',
+                ['json' => ['clientId' => $this->clientId, 'clientSecret' => $this->clientSecret]]
+            );
+            // ---
+            $data = json_decode($response->getBody()->getContents(), true);
+
+            $this->store->set('salesforce-token', $data['accessToken'], $data['expiresIn']);
+        }
+
+        return $this->store->get('salesforce-token');
     }
 
     /**
-     * @param AbstractEndpoint $endpoint
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     * @param string $method
+     * @param string $uri
+     * @param array $data
      * @return array
+     * @throws \GuzzleHttp\Exception\GuzzleException
      */
-    public function dispatch(AbstractEndpoint $endpoint): array
+    public function request(string $method, string $uri, array $data = []): array
     {
         $response = $this->guzzle->request(
-            $endpoint->getHttpMethod(),
-            $endpoint->getURI(),
-            ['json' => $endpoint->getBody()]
+            $method,
+            $uri,
+            [
+                'headers' => [
+                    'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                ],
+                'json' => $data,
+                'debug' => true
+            ]
         );
 
-        return [$response->getBody()->getContents()];
+        return json_decode($response->getBody()->getContents(), true);
     }
 }
