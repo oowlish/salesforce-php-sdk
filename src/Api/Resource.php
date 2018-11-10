@@ -8,8 +8,14 @@ use Oowlish\Salesforce\MarketingCloud;
 
 abstract class Resource
 {
+    /**
+     * @var MarketingCloud
+     */
     protected $marketingCloud;
 
+    /**
+     * @param MarketingCloud
+     */
     public function __construct(MarketingCloud $marketingCloud)
     {
         $this->marketingCloud = $marketingCloud;
