@@ -1,10 +1,7 @@
-<?php
-
-declare(strict_types=1);
+<?php declare(strict_types=1);
 
 namespace Oowlish\Salesforce;
 
-use GuzzleHttp\Client;
 use GuzzleHttp\ClientInterface;
 use Psr\SimpleCache\CacheInterface;
 
@@ -21,66 +18,67 @@ class MarketingCloud
     private $clientSecret;
 
     /**
-     * @var Client|null
+     * @var ClientInterface
      */
     private $guzzle;
 
     /**
      * @var CacheInterface
      */
-    private $store;
+    private $cache;
 
     /**
      * @param string $clientId
      * @param string $clientSecret
-     * @param ClientInterface|null $guzzle
-     * @param $store
+     * @param ClientInterface $guzzle
+     * @param CacheInterface $cache
      */
-    public function __construct(string $clientId, string $clientSecret, ClientInterface $guzzle, CacheInterface $store)
+    public function __construct(string $clientId, string $clientSecret, ClientInterface $guzzle, CacheInterface $cache)
     {
         $this->clientId = $clientId;
         $this->clientSecret = $clientSecret;
         $this->guzzle = $guzzle;
-        $this->store = $store;
+        $this->cache = $cache;
     }
 
-    public function getAccessToken()
+    /**
+     * @return string
+     */
+    private function getAccessToken(): string
     {
-        if (!$this->store->has('salesforce-token')) {
-            $response = $this->guzzle->request(
-                'POST',
-                'https://auth.exacttargetapis.com/v1/requestToken',
-                ['json' => ['clientId' => $this->clientId, 'clientSecret' => $this->clientSecret]]
-            );
-            // ---
+        if (! $this->cache->has('salesforce.marketing_cloud.access_token')) {
+            $response = $this->guzzle->request('POST', 'https://auth.exacttargetapis.com/v1/requestToken', [
+                'json' => [
+                    'clientId' => $this->clientId,
+                    'clientSecret' => $this->clientSecret,
+                ],
+            ]);
+
             $data = json_decode($response->getBody()->getContents(), true);
 
-            $this->store->set('salesforce-token', $data['accessToken'], $data['expiresIn']);
+            $this->cache->set('salesforce.marketing_cloud.access_token', $data['accessToken'], $data['expiresIn']);
         }
 
-        return $this->store->get('salesforce-token');
+        return $this->cache->get('salesforce.marketing_cloud.access_token');
     }
 
     /**
      * @param string $method
      * @param string $uri
      * @param array $data
+     *
      * @return array
-     * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @throws GuzzleException
      */
     public function request(string $method, string $uri, array $data = []): array
     {
-        $response = $this->guzzle->request(
-            $method,
-            $uri,
-            [
-                'headers' => [
-                    'Authorization' => 'Bearer ' . $this->getAccessToken(),
-                ],
-                'json' => $data,
-                'debug' => true
+        $response = $this->guzzle->request($method, $uri, [
+            'json' => $data,
+            'headers' => [
+                'Authorization' => "Bearer {$this->getAccessToken()}",
             ]
-        );
+        ]);
 
         return json_decode($response->getBody()->getContents(), true);
     }

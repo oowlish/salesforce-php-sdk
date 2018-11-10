@@ -1,5 +1,8 @@
 # Salesforce PHP-SDK
 
+[![StyleCI](https://github.styleci.io/repos/156594515/shield?branch=master)](https://github.styleci.io/repos/156594515)
+[![PHP](https://img.shields.io/badge/php-7.1%2B-blue.svg)](https://img.shields.io/badge/php-7.1%2B-blue.svg)
+
 ## Install
 
 Via Composer
