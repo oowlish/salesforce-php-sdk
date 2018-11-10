@@ -1,4 +1,6 @@
-<?php declare(strict_types=1);
+<?php
+
+declare(strict_types=1);
 
 namespace Oowlish\Salesforce;
 
@@ -28,10 +30,10 @@ class MarketingCloud
     private $cache;
 
     /**
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param string          $clientId
+     * @param string          $clientSecret
      * @param ClientInterface $guzzle
-     * @param CacheInterface $cache
+     * @param CacheInterface  $cache
      */
     public function __construct(string $clientId, string $clientSecret, ClientInterface $guzzle, CacheInterface $cache)
     {
@@ -46,7 +48,7 @@ class MarketingCloud
      */
     private function getAccessToken(): string
     {
-        if (! $this->cache->has('salesforce.marketing_cloud.access_token')) {
+        if (!$this->cache->has('salesforce.marketing_cloud.access_token')) {
             $response = $this->guzzle->request('POST', 'https://auth.exacttargetapis.com/v1/requestToken', [
                 'json' => [
                     'clientId' => $this->clientId,
@@ -65,7 +67,7 @@ class MarketingCloud
     /**
      * @param string $method
      * @param string $uri
-     * @param array $data
+     * @param array  $data
      *
      * @return array
      *
@@ -77,7 +79,7 @@ class MarketingCloud
             'json' => $data,
             'headers' => [
                 'Authorization' => "Bearer {$this->getAccessToken()}",
-            ]
+            ],
         ]);
 
         return json_decode($response->getBody()->getContents(), true);
