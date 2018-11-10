@@ -31,8 +31,8 @@ class MarketingCloud
     private $store;
 
     /**
-     * @param string $clientId
-     * @param string $clientSecret
+     * @param string               $clientId
+     * @param string               $clientSecret
      * @param ClientInterface|null $guzzle
      * @param $store
      */
@@ -64,9 +64,11 @@ class MarketingCloud
     /**
      * @param string $method
      * @param string $uri
-     * @param array $data
-     * @return array
+     * @param array  $data
+     *
      * @throws \GuzzleHttp\Exception\GuzzleException
+     *
+     * @return array
      */
     public function request(string $method, string $uri, array $data = []): array
     {
@@ -75,10 +77,10 @@ class MarketingCloud
             $uri,
             [
                 'headers' => [
-                    'Authorization' => 'Bearer ' . $this->getAccessToken(),
+                    'Authorization' => 'Bearer '.$this->getAccessToken(),
                 ],
-                'json' => $data,
-                'debug' => true
+                'json'  => $data,
+                'debug' => true,
             ]
         );
 
