@@ -19,7 +19,7 @@ class Messaging extends Resource
      *
      * @return array
      */
-    public function sendEmail(string $triggeredSendDefinitionId, array $from, array $to, array $options): array
+    public function sendEmail(string $triggeredSendDefinitionId, array $from, array $to, array $options = []): array
     {
         return $this
             ->marketingCloud
@@ -29,7 +29,7 @@ class Messaging extends Resource
                 [
                     $from,
                     $to,
-                    $options,
+                    ['Options' => $options],
                 ]
             );
     }
