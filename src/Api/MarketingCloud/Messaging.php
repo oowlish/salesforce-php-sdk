@@ -13,9 +13,9 @@ class Messaging extends Resource
      * In order to use this service, configure a triggered send definition in Email Studio.
      *
      * @param string $triggeredSendDefinitionId
-     * @param array $from
-     * @param array $to
-     * @param array $options
+     * @param array  $from
+     * @param array  $to
+     * @param array  $options
      *
      * @return array
      */
