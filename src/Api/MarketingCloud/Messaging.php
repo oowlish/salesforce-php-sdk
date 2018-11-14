@@ -16,6 +16,7 @@ class Messaging extends Resource
      * @param array $from
      * @param array $to
      * @param array $options
+     *
      * @return array
      */
     public function sendEmail(string $triggeredSendDefinitionId, array $from, array $to, array $options): array
