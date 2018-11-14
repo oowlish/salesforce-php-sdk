@@ -15,7 +15,7 @@ class DomainVerification extends Resource
      * @param string      $notificationEmail
      * @param array       $addresses
      * @param string|null $dataExtensionTable
-     * @param string|null $dEColumn
+     * @param string|null $dataExtensionColumn
      *
      * @return mixed
      */
@@ -23,7 +23,7 @@ class DomainVerification extends Resource
         string $notificationEmail,
         array $addresses = [],
         string $dataExtensionTable = null,
-        string $dEColumn = null
+        string $dataExtensionColumn = null
     ) {
         return $this->request(
             'POST',
@@ -32,7 +32,7 @@ class DomainVerification extends Resource
                 'NotificationEmail' => $notificationEmail,
                 'Addresses' => $addresses,
                 'DETable' => $dataExtensionTable,
-                'DEColumn' => $dEColumn,
+                'DEColumn' => $dataExtensionColumn,
             ]
         );
     }
