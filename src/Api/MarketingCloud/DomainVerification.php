@@ -14,7 +14,7 @@ class DomainVerification extends Resource
      *
      * @param string      $notificationEmail
      * @param array       $addresses
-     * @param string|null $dETable
+     * @param string|null $dataExtensionTable
      * @param string|null $dEColumn
      *
      * @return mixed
@@ -22,7 +22,7 @@ class DomainVerification extends Resource
     public function domainVerificationBulkInsert(
         string $notificationEmail,
         array $addresses = [],
-        string $dETable = null,
+        string $dataExtensionTable = null,
         string $dEColumn = null
     ) {
         return $this->request(
@@ -31,7 +31,7 @@ class DomainVerification extends Resource
             [
                 'NotificationEmail' => $notificationEmail,
                 'Addresses' => $addresses,
-                'DETable' => $dETable,
+                'DETable' => $dataExtensionTable,
                 'DEColumn' => $dEColumn,
             ]
         );
