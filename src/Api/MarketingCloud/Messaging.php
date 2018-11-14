@@ -28,7 +28,7 @@ class Messaging extends Resource
                 [
                     $from,
                     $to,
-                    $options
+                    $options,
                 ]
             );
     }
