@@ -27,6 +27,7 @@
     "config": {
         "sort-packages": true
     },
+    "minimum-stability": "stable",
     "require": {
         "php": "^7.1",
         "ext-json": "*",
