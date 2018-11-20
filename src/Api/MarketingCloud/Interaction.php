@@ -23,7 +23,7 @@ class Interaction extends Resource
             [
                 'ContectKey' => $contactKey,
                 'EventDefinitionKey' => $eventDefinitionKey,
-                'Data' => $data
+                'Data' => $data,
             ]
         );
     }
